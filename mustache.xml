@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+
+<language name="Mustache" extensions="*.stash" section="Markup" mimetype="text/mustache" version="1.0" kateversion="2.4" casesensitive="1">
+
+    <highlighting>
+        <contexts>
+            <context name="Normal" attribute="Normal Text" lineEndContext="#stay" >
+                <IncludeRules context="##HTML" />
+                <DetectSpaces/>
+                <StringDetect String="{{{" attribute="Tag" context="UnescapedTag"/>
+                <RegExpr attribute="SectionTag" context="Section" String="\{\{#[0-9a-zA-Z\._]+\}\}" beginRegion="Section"/>
+                <RegExpr attribute="Tag" context="Tag" String="\{\{"/>
+                <RegExpr attribute="Tag" context="#pop" String="\}\}"/>
+            </context>
+            <context name="Tag" attribute="Tag" lineEndContext="#stay">
+                <Detect2Chars char="}" char1="}" context="#pop"  attribute="Tag" />
+                <DetectChar attribute="Symbol" char="#" beginRegion="Section" Context="Section"/>
+                <DetectChar attribute="Symbol" char="^" beginRegion="Section"/>
+                <DetectChar attribute="Symbol" char=">" context="Partial"/>
+                <DetectChar attribute="Symbol" char="%" context="Pragma"/>
+                <RegExpr    attribute="TagName" context="#stay" String="[0-9a-zA-Z\._]+"/>
+            </context>
+            <context name="Section">
+                <RegExpr attribute="SectionTag" context="#pop" String="\{\{/[0-9a-zA-Z\._]+\}\}" endRegion="Section"/>
+                <StringDetect String="{{.}}" attribute="IteratorTag"/>
+                <IncludeRules context="Normal"/>
+            </context>
+
+            <context name="UnescapedTag" attribute="Tag" lineEndContext="#stay">
+                <RegExpr attribute="Tag" context="#pop" String="\}\}\}"/>
+                <RegExpr attribute="UnescapedTagName" context="#stay" String="[0-9a-zA-Z\._]+"/>
+            </context>
+            <context name="Partial">
+                <Detect2Chars char="}" char1="}" context="#pop#pop"  attribute="Tag" />
+                <RegExpr attribute="PartialName" context="#stay" String="[0-9a-zA-Z\._]+"/>
+            </context>
+            <context name="Pragma">
+                <Detect2Chars char="}" char1="}" context="#pop#pop"  attribute="Tag" />
+                <RegExpr attribute="PragmaName" context="#stay" String="[0-9a-zA-Z\._]+"/>
+            </context>
+        </contexts>
+
+        <itemDatas>
+            <itemData name="Normal"             defStyleNum="dsNormal" />
+            <itemData name="Tag"                defStyleNum="dsOthers"/>
+            <itemData name="TagName"            defStyleNum="dsString"/>
+            <itemData name="IteratorTag"        defStyleNum="dsFunction"/>
+            <itemData name="SectionTag"         defStyleNum="dsDataType"/>
+            <itemData name="UnescapedTagName"   defStyleNum="dsString" italic="1" />
+            <itemData name="Symbol"             defStyleNum="dsDataType"/>
+            <itemData name="PartialName"        defStyleNum="dsFunction"/>
+            <itemData name="PragmaName"         defStyleNum="dsKeyword"/>
+        </itemDatas>
+
+    </highlighting>
+
+</language>
