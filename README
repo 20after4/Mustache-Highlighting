@@ -1,0 +1,8 @@
+To use mustache syntax highlighting in kate:
+
+Save mustache.xml into your kate syntax directory
+(create the directory if it does not exist) and then restart kate.
+
+Example path:
+
+  /$HOME/.kde/share/apps/katepart/syntax/mustache.xml
