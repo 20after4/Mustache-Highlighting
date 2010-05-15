@@ -6,3 +6,6 @@ Save mustache.xml into your kate syntax directory
 Example path:
 
   /$HOME/.kde/share/apps/katepart/syntax/mustache.xml
+
+ Don't know what mustache is?  See http://mustache.github.com
+ 
